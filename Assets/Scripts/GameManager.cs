@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Text Coins;
     [SerializeField] private Text World;
     [SerializeField] private Text TimeField;
+    [SerializeField] private GameObject ethan;
 
     private string timeBase = "TIME\n";
     private string scoreBase = "MARIO\n";
@@ -30,7 +31,8 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         timeLeft -= Time.deltaTime;
-        updateOSD();
+        if(timeLeft > 0) updateOSD();
+        else Destroy(ethan);
         if(Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -39,6 +41,7 @@ public class GameManager : MonoBehaviour
             if(Physics.Raycast(ray, out hit) && hit.collider.tag == "hittable")
             {
                 Debug.Log(hit.collider.tag);
+                curScore += 100;
                 if(hit.collider.name == "QuestionBox(Clone)") curCoins++;
                 Destroy(hit.collider.gameObject);
             }
